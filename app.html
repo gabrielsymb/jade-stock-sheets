@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Jade Stock</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══════════════════════════════════════════════
+       SIDE RAIL — visível em desktop/tablet
+       Fica escondido em mobile (CSS: display:none < 600px)
+  ══════════════════════════════════════════════ -->
+  <aside id="rail">
+
+    <!-- Logo joia -->
+    <svg class="rail-logo" viewBox="0 0 512 512" fill="none">
+      <defs>
+        <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#a8ffcb"/>
+          <stop offset="100%" stop-color="#065f46"/>
+        </linearGradient>
+      </defs>
+      <polygon points="256,110 336,80 432,200 336,210 256,180 176,210 80,200 176,80" fill="url(#rg1)" opacity=".9"/>
+      <polygon points="80,200 176,210 256,180 176,300" fill="#34d399" opacity=".85"/>
+      <polygon points="432,200 336,210 256,180 336,300" fill="url(#rg1)" opacity=".9"/>
+      <polygon points="176,300 256,180 336,300 256,380" fill="#047857" opacity=".95"/>
+      <polygon points="80,200 100,360 256,380 176,300" fill="#047857" opacity=".8"/>
+      <polygon points="432,200 412,360 256,380 336,300" fill="url(#rg1)" opacity=".7"/>
+      <polygon points="100,360 256,460 412,360 256,380" fill="#065f46" opacity=".9"/>
+    </svg>
+
+    <!-- PDV -->
+    <button class="rail-btn active" id="rail-pdv" onclick="navigate('pdv')" title="PDV">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+    </button>
+
+    <!-- Estoque -->
+    <button class="rail-btn" id="rail-estoque" onclick="navigate('estoque')" title="Estoque">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 2L2 7l9.5 5 9.5-5-9.5-5zm0 14.5L2 12l1.5-.84 8 4.45 8-4.45L21 12l-9.5 4.5zm0 5L2 17l1.5-.84 8 4.45 8-4.45L21 17l-9.5 4.5z"/></svg>
+    </button>
+
+    <!-- Dashboard -->
+    <button class="rail-btn" id="rail-dashboard" onclick="navigate('dashboard')" title="Dashboard">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5V9.2zM10.6 5h2.8v14h-2.8V5zm5.6 8H19v6h-2.8v-6z"/></svg>
+    </button>
+
+    <!-- Produtos -->
+    <button class="rail-btn" id="rail-produtos" onclick="navigate('produtos')" title="Produtos">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 15.91l6 3.38v-6.71L5 9.21v6.7zm14 0v-6.7l-6 3.37v6.71l6-3.38z"/></svg>
+    </button>
+
+    <!-- Custos -->
+    <button class="rail-btn" id="rail-custos" onclick="navigate('custos')" title="Custos">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+    </button>
+
+    <!-- Fornecedores -->
+    <button class="rail-btn" id="rail-fornecedores" onclick="navigate('fornecedores')" title="Fornecedores">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>
+    </button>
+
+    <!-- Relatórios -->
+    <button class="rail-btn" id="rail-relatorios" onclick="navigate('relatorios')" title="Relatórios">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+    </button>
+
+    <div class="rail-spacer"></div>
+
+    <!-- Avatar / perfil -->
+    <div class="rail-avatar" id="rail-avatar" title="Perfil">G</div>
+
+  </aside>
+
+  <!-- ══════════════════════════════════════════════
+       WORKSPACE
+  ══════════════════════════════════════════════ -->
+  <div id="workspace">
+
+    <!-- Header -->
+    <header id="header">
+      <div id="header-title">JADE // PDV</div>
+      <div class="h-divider"></div>
+      <span class="op-code" id="op-code">OP_USUÁRIO</span>
+    </header>
+
+    <!-- Canvas — conteúdo principal -->
+    <div id="content"></div>
+
+    <!-- Terminal de venda — só visível no PDV -->
+    <footer id="terminal" style="display:none">
+      <div class="terminal-bar">
+        <span>[CART_BUFFER]</span>
+        <span id="term-count">COUNT: 00</span>
+      </div>
+      <div class="terminal-body" id="term-items">
+        <span style="color:var(--text-3); font-family:var(--font-mono); font-size:11px;">&gt; SYS.READY..._</span>
+      </div>
+      <div class="terminal-foot">
+        <div class="term-total" id="term-total">R$ 0,00</div>
+        <button class="btn btn-action" onclick="if(window.finalizarVenda) finalizarVenda()">
+          Finalizar [F]
+        </button>
+      </div>
+    </footer>
+
+  </div><!-- /workspace -->
+
+  <!-- ══════════════════════════════════════════════
+       BOTTOM NAV — visível só em mobile
+  ══════════════════════════════════════════════ -->
+  <nav id="nav">
+
+    <button class="nav-btn active" onclick="navigate('pdv')" id="btn-pdv">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      <span class="nav-label">PDV</span>
+    </button>
+
+    <button class="nav-btn" onclick="navigate('estoque')" id="btn-estoque">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 2L2 7l9.5 5 9.5-5-9.5-5zm0 14.5L2 12l1.5-.84 8 4.45 8-4.45L21 12l-9.5 4.5zm0 5L2 17l1.5-.84 8 4.45 8-4.45L21 17l-9.5 4.5z"/></svg>
+      <span class="nav-label">Estoque</span>
+    </button>
+
+    <button class="nav-btn" onclick="navigate('dashboard')" id="btn-dashboard">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5V9.2zM10.6 5h2.8v14h-2.8V5zm5.6 8H19v6h-2.8v-6z"/></svg>
+      <span class="nav-label">Dashboard</span>
+    </button>
+
+    <button class="nav-btn" onclick="navigate('produtos')" id="btn-produtos">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 15.91l6 3.38v-6.71L5 9.21v6.7zm14 0v-6.7l-6 3.37v6.71l6-3.38z"/></svg>
+      <span class="nav-label">Produtos</span>
+    </button>
+
+    <button class="nav-btn" onclick="navigate('custos')" id="btn-custos">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+      <span class="nav-label">Custos</span>
+    </button>
+
+    <button class="nav-btn" onclick="navigate('fornecedores')" id="btn-fornecedores">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>
+      <span class="nav-label">Fornec.</span>
+    </button>
+
+    <button class="nav-btn" onclick="navigate('relatorios')" id="btn-relatorios">
+      <div class="nav-pill"></div>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+      <span class="nav-label">Rel.</span>
+    </button>
+
+  </nav>
+
+</div><!-- /app -->
+
+<!-- Utilitários globais -->
+<div id="toast"></div>
+<div id="modal-overlay" style="display:none"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS — ordem importa:
+     1. api.js         → camada de comunicação
+     2. app.js         → navigate(), toast(), modal(), estado global
+     3. scanner.js     → BarcodeDetector
+     4. pdv.js         → renderPDV(), finalizarVenda(), terminal
+     5. *-ui.js        → cada módulo de tela
+     6. manifest.js    → meta tags iOS
+══════════════════════════════════════════════ -->
+<script src="api.js"></script>
+<script src="app.js"></script>
+<script src="scanner.js"></script>
+<script src="pdv.js"></script>
+<script src="produtos-ui.js"></script>
+<script src="estoque-ui.js"></script>
+<script src="nfemapper-ui.js"></script>
+<script src="custos-ui.js"></script>
+<script src="fornecedores-ui.js"></script>
+<script src="dashboard-ui.js"></script>
+<script src="relatorios-ui.js"></script>
+<script src="manifest.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+</script>
+
+</body>
+</html>
