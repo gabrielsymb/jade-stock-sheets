@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#a8ffcb"/>
+      <stop offset="40%"  stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#6ee7b7"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#d1fae5"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="#ecfdf5" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#6ee7b7" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#065f46" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <polygon points="256,460 100,360 80,200 176,80 336,80 432,200 412,360" fill="url(#g4)" opacity="0.6"/>
+    <polygon points="256,110 336,80 432,200 336,210 256,180 176,210 80,200 176,80" fill="url(#g3)"/>
+    <polygon points="80,200 176,210 256,180 176,300" fill="url(#g2)" opacity="0.85"/>
+    <polygon points="432,200 336,210 256,180 336,300" fill="url(#g1)" opacity="0.9"/>
+    <polygon points="176,300 256,180 336,300 256,380" fill="url(#g2)" opacity="0.95"/>
+    <polygon points="80,200 100,360 256,380 176,300" fill="url(#g4)" opacity="0.8"/>
+    <polygon points="432,200 412,360 256,380 336,300" fill="url(#g1)" opacity="0.7"/>
+    <polygon points="100,360 256,460 412,360 256,380" fill="url(#g4)" opacity="0.9"/>
+    <polygon points="176,80 256,110 256,180 176,210 80,200" fill="url(#glow)" opacity="0.5"/>
+    <line x1="256" y1="110" x2="256" y2="460" stroke="#a7f3d0" stroke-width="0.8" opacity="0.2"/>
+    <line x1="80"  y1="200" x2="432" y2="200" stroke="#a7f3d0" stroke-width="0.8" opacity="0.2"/>
+    <line x1="176" y1="80"  x2="412" y2="360" stroke="#a7f3d0" stroke-width="0.6" opacity="0.15"/>
+    <line x1="336" y1="80"  x2="100" y2="360" stroke="#a7f3d0" stroke-width="0.6" opacity="0.15"/>
+    <ellipse cx="210" cy="145" rx="28" ry="14" fill="white" opacity="0.35" transform="rotate(-20,210,145)"/>
+    <ellipse cx="198" cy="138" rx="10" ry="5"  fill="white" opacity="0.6"  transform="rotate(-20,198,138)"/>
+  </g>
+</svg>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Jade Stock · Sistema de Gestão para Pequenos Negócios</title>
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #07100d;
+  --surface: #0d1712;
+  --panel:   #12201a;
+  --border:  #1a3a2a;
+  
+  --jade:    #34d399;
+  --jade-2:  #6ee7b7;
+  --jade-d:  #064e3b;
+  
+  --text:    #d1fae5;
+  --text-2:  #a7f3d0;
+  --text-3:  #6ee7b7;
+  --muted:   #4d7a68;
+  
+  --font-brand: 'Syne', sans-serif;
+  --font-body:  'DM Sans', sans-serif;
+  
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Fundo com gradiente radial sutil */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(52,211,153,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 20%, rgba(110,231,183,.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+
+header {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo svg {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 0 12px rgba(52,211,153,.25));
+}
+
+.logo-text {
+  font-family: var(--font-brand);
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #a8ffcb 0%, #34d399 50%, #064e3b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.nav-link:hover { color: var(--jade); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform .15s, box-shadow .15s;
+}
+
+.btn:active { transform: scale(.96); }
+
+.btn-primary {
+  background: var(--jade);
+  color: #022c1c;
+  box-shadow: 0 0 20px rgba(52,211,153,.2);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 32px rgba(52,211,153,.35);
+}
+
+.btn-ghost {
+  background: rgba(52,211,153,.06);
+  color: var(--jade);
+  border: 1px solid rgba(52,211,153,.18);
+}
+
+.btn-ghost:hover {
+  background: rgba(52,211,153,.12);
+}
+
+/* ── HERO ───────────────────────────────────────────── */
+
+.hero {
+  padding: 80px 0 120px;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(52,211,153,.08);
+  border: 1px solid rgba(52,211,153,.2);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--jade);
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: var(--font-brand);
+  font-size: clamp(40px, 8vw, 72px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #d1fae5 0%, #6ee7b7 40%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── FEATURES ───────────────────────────────────────── */
+
+.features {
+  padding: 80px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-family: var(--font-brand);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--jade);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.features h2 {
+  font-family: var(--font-brand);
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  transition: transform .2s, border-color .2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(52,211,153,.3);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(52,211,153,.1);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--jade);
+  font-size: 24px;
+}
+
+.feature-card h3 {
+  font-family: var(--font-brand);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── CTA ────────────────────────────────────────────── */
+
+.cta {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, rgba(52,211,153,.08) 0%, rgba(6,78,59,.1) 100%);
+  border: 1px solid rgba(52,211,153,.2);
+  border-radius: 24px;
+  padding: 60px 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta h2 {
+  font-family: var(--font-brand);
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.cta p {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+/* ── FOOTER ─────────────────────────────────────────── */
+
+footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+footer p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+footer a {
+  color: var(--jade);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero { padding: 60px 0 80px; }
+  .features { padding: 60px 0; }
+  .cta { padding: 60px 0; }
+  .cta-box { padding: 40px 24px; }
+}
+
+/* ── ANIMAÇÃO ───────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero,
+.features,
+.cta {
+  animation: fadeUp .8s cubic-bezier(.22,1,.36,1) both;
+}
+
+.features { animation-delay: .1s; }
+.cta { animation-delay: .2s; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">
+        <svg viewBox="0 0 512 512" fill="none">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a8ffcb"/>
+              <stop offset="100%" stop-color="#065f46"/>
+            </linearGradient>
+          </defs>
+          <polygon points="256,110 336,80 432,200 336,210 256,180 176,210 80,200 176,80" fill="url(#g1)" opacity=".9"/>
+          <polygon points="80,200 176,210 256,180 176,300" fill="#34d399" opacity=".85"/>
+          <polygon points="432,200 336,210 256,180 336,300" fill="url(#g1)" opacity=".9"/>
+          <polygon points="176,300 256,180 336,300 256,380" fill="#047857" opacity=".95"/>
+          <polygon points="80,200 100,360 256,380 176,300" fill="#047857" opacity=".8"/>
+          <polygon points="432,200 412,360 256,380 336,300" fill="url(#g1)" opacity=".7"/>
+          <polygon points="100,360 256,460 412,360 256,380" fill="#065f46" opacity=".9"/>
+        </svg>
+        <span class="logo-text">Jade Stock</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Recursos</a>
+        <a href="/app.html" class="btn btn-primary">Acessar Sistema →</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+          <circle cx="6" cy="6" r="6"/>
+        </svg>
+      </div>
+      <h1>Gestão de estoque<br>que realmente funciona</h1>
+      <p>
+        Sistema completo de PDV, controle de estoque, importação de NF-e e dashboard gerencial. 
+        Desenvolvido para pequenos negócios que precisam de eficiência sem complicação.
+      </p>
+      <div class="hero-actions">
+        <a href="/app.html" class="btn btn-primary">Começar Agora →</a>
+        <a href="#features" class="btn btn-ghost">Ver Recursos</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">Recursos</div>
+      <h2>Tudo que você precisa em um só lugar</h2>
+      
+      <div class="feature-grid">
+        
+        <div class="feature-card">
+          <div class="feature-icon">💳</div>
+          <h3>PDV Rápido</h3>
+          <p>
+            Ponto de venda otimizado para agilidade. Scanner de código de barras integrado, 
+            busca instantânea e terminal de vendas profissional.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Gestão de Estoque</h3>
+          <p>
+            Controle completo de entradas e saídas. Alertas automáticos de estoque mínimo 
+            e rastreamento em tempo real.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>Importação de NF-e</h3>
+          <p>
+            Upload de XML da nota fiscal com mapeamento inteligente de produtos. 
+            IA integrada para vincular itens automaticamente.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Dashboard Analítico</h3>
+          <p>
+            Métricas em tempo real: faturamento diário/mensal, produtos mais vendidos, 
+            análise por hora e dia da semana.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>Controle de Custos</h3>
+          <p>
+            Gestão de custos fixos e variáveis. Cálculo automático de margem de lucro 
+            e metas mensais baseadas em custos reais.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🚚</div>
+          <h3>Gestão de Fornecedores</h3>
+          <p>
+            Cadastro completo de fornecedores com histórico de preços, prazos de entrega 
+            e acompanhamento de problemas recorrentes.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>PWA Offline-First</h3>
+          <p>
+            Funciona como app nativo no celular e tablet. Service Worker para 
+            cache inteligente e operação offline.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3>Multi-Tenant Seguro</h3>
+          <p>
+            Cada usuário tem sua própria planilha isolada. Login com Google OAuth 
+            e provisionamento automático.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Relatórios Gerenciais</h3>
+          <p>
+            Geração de relatórios personalizados por período. Análise de vendas 
+            por produto, margem e performance do estoque.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Pronto para organizar seu negócio?</h2>
+        <p>
+          Comece a usar agora mesmo com sua conta Google.
+        </p>
+        <a href="/app.html" class="btn btn-primary">Acessar Sistema →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>
+      Jade Stock © 2025 · Sistema de gestão para pequenos negócios<br>
+      Desenvolvido com ❤️ usando Google Apps Script + PWA
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
