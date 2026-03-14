@@ -1,0 +1,9 @@
+cat > .claspignore << 'EOF'
+**/**
+!appsscript.json
+!*.js
+node_modules/**
+frontend/**
+docs/**
+public/**
+EOF

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Scanner Jade Stock</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #e5e5e5;
+        }
+        .test-section {
+            background: #111111;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .test-result {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 8px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid #34d399; }
+        .error { background: rgba(248, 113, 113, 0.1); color: #f87171; border: 1px solid #f87171; }
+        .warning { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid #fbbf24; }
+        .info { background: rgba(96, 165, 250, 0.1); color: #60a5fa; border: 1px solid #60a5fa; }
+        button {
+            background: #34d399;
+            color: #022c1c;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 4px;
+        }
+        button:hover { background: #10b981; }
+        button:disabled { background: #374151; color: #9ca3af; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Teste do Sistema Scanner - Jade Stock</h1>
+    
+    <div class="test-section">
+        <h2>📱 Diagnóstico do Navegador</h2>
+        <button onclick="runDiagnostic()">Executar Diagnóstico</button>
+        <div id="diagnostic-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📷 Teste de Acesso à Câmera</h2>
+        <button onclick="testCamera()">Testar getUserMedia</button>
+        <div id="camera-results"></div>
+        <video id="test-video" style="width: 100%; max-width: 400px; display: none; border-radius: 8px; margin-top: 8px;"></video>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Teste BarcodeDetector API</h2>
+        <button onclick="testBarcodeDetector()">Testar BarcodeDetector</button>
+        <div id="barcode-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Simulação de Leitura</h2>
+        <input type="text" id="test-input" placeholder="Digite um código de barras" style="width: 200px; padding: 8px; margin: 8px; background: #1f2937; border: 1px solid #374151; color: #f3f4f6; border-radius: 4px;">
+        <button onclick="testCodeReading()">Testar Leitura</button>
+        <div id="reading-results"></div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            element.appendChild(div);
+        }
+
+        function clearResults(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        function runDiagnostic() {
+            clearResults('diagnostic-results');
+            
+            const diag = {
+                userAgent: navigator.userAgent,
+                barcodeDetector: typeof window.BarcodeDetector !== 'undefined',
+                getUserMedia: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+                isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent),
+                isAndroid: /Android/.test(navigator.userAgent),
+                isChrome: /Chrome/.test(navigator.userAgent),
+                isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
+                isFirefox: /Firefox/.test(navigator.userAgent),
+                isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+            };
+
+            showResult('diagnostic-results', `User Agent: ${diag.userAgent}`, 'info');
+            showResult('diagnostic-results', `BarcodeDetector: ${diag.barcodeDetector ? '✅ Suportado' : '❌ Não suportado'}`, diag.barcodeDetector ? 'success' : 'error');
+            showResult('diagnostic-results', `getUserMedia: ${diag.getUserMedia ? '✅ Suportado' : '❌ Não suportado'}`, diag.getUserMedia ? 'success' : 'error');
+            showResult('diagnostic-results', `Plataforma: ${diag.isIOS ? 'iOS' : diag.isAndroid ? 'Android' : 'Desktop'}`, 'info');
+            showResult('diagnostic-results', `Navegador: ${diag.isChrome ? 'Chrome' : diag.isSafari ? 'Safari' : diag.isFirefox ? 'Firefox' : 'Outro'}`, 'info');
+
+            // Recomendações
+            if (diag.barcodeDetector && diag.getUserMedia) {
+                showResult('diagnostic-results', '🎉 Scanner completo suportado!', 'success');
+            } else if (diag.getUserMedia) {
+                showResult('diagnostic-results', '⚠️ Apenas câmera manual disponível', 'warning');
+            } else {
+                showResult('diagnostic-results', '❌ Nenhum recurso de scanner disponível', 'error');
+            }
+        }
+
+        async function testCamera() {
+            clearResults('camera-results');
+            const video = document.getElementById('test-video');
+            
+            try {
+                showResult('camera-results', 'Solicitando acesso à câmera...', 'info');
+                
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                });
+
+                video.srcObject = stream;
+                video.style.display = 'block';
+                await video.play();
+
+                showResult('camera-results', '✅ Câmera acessada com sucesso!', 'success');
+                showResult('camera-results', `Resolução: ${video.videoWidth}x${video.videoHeight}`, 'info');
+
+                // Parar após 5 segundos
+                setTimeout(() => {
+                    stream.getTracks().forEach(track => track.stop());
+                    video.style.display = 'none';
+                    showResult('camera-results', '📴 Câmera desligada (teste concluído)', 'info');
+                }, 5000);
+
+            } catch (error) {
+                showResult('camera-results', `❌ Erro: ${error.message}`, 'error');
+                if (error.name === 'NotAllowedError') {
+                    showResult('camera-results', '💡 Permissão negada. Verifique as configurações do navegador.', 'warning');
+                }
+            }
+        }
+
+        async function testBarcodeDetector() {
+            clearResults('barcode-results');
+            
+            if (typeof window.BarcodeDetector === 'undefined') {
+                showResult('barcode-results', '❌ BarcodeDetector não disponível neste navegador', 'error');
+                return;
+            }
+
+            try {
+                showResult('barcode-results', 'Verificando formatos suportados...', 'info');
+                
+                const formats = await window.BarcodeDetector.getSupportedFormats();
+                showResult('barcode-results', `✅ Formatos suportados: ${formats.join(', ')}`, 'success');
+
+                const detector = new window.BarcodeDetector({
+                    formats: ['ean_13', 'ean_8', 'code_128', 'code_39', 'upc_a', 'upc_e']
+                });
+                showResult('barcode-results', '✅ Detector criado com sucesso', 'success');
+
+            } catch (error) {
+                showResult('barcode-results', `❌ Erro: ${error.message}`, 'error');
+            }
+        }
+
+        function testCodeReading() {
+            clearResults('reading-results');
+            const input = document.getElementById('test-input');
+            const code = input.value.trim();
+            
+            if (!code) {
+                showResult('reading-results', '❌ Digite um código de barras', 'error');
+                return;
+            }
+
+            // Simula diferentes formatos
+            const ean13 = /^\d{13}$/;
+            const ean8 = /^\d{8}$/;
+            const upc = /^\d{12}$/;
+
+            if (ean13.test(code)) {
+                showResult('reading-results', `✅ EAN-13 válido: ${code}`, 'success');
+            } else if (ean8.test(code)) {
+                showResult('reading-results', `✅ EAN-8 válido: ${code}`, 'success');
+            } else if (upc.test(code)) {
+                showResult('reading-results', `✅ UPC-A válido: ${code}`, 'success');
+            } else {
+                showResult('reading-results', `⚠️ Formato não reconhecido: ${code}`, 'warning');
+            }
+
+            showResult('reading-results', `📦 Simulando adição ao carrinho...`, 'info');
+            setTimeout(() => {
+                showResult('reading-results', `🎉 Produto "${code}" adicionado com sucesso!`, 'success');
+            }, 1000);
+        }
+
+        // Executa diagnóstico ao carregar
+        window.addEventListener('load', () => {
+            runDiagnostic();
+        });
+    </script>
+</body>
+</html>

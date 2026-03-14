@@ -1,0 +1,12 @@
+# Cloudflare Pages configuration for Jade Stock
+# Configurações básicas para deploy
+
+name = "jade-stock"
+compatibility_date = "2024-03-13"
+
+# Build configuration
+pages_build_output_dir = "frontend"
+
+# Environment variables (se necessário)
+# [vars]
+# ENVIRONMENT = "production"
